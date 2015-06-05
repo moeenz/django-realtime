@@ -8,11 +8,7 @@ except:
 
 try:
     from django.utils import simplejson as json
-
 except ImportError:
-    import simplejson as json
-    
-except:
     import json
     
 __version__ = '0.1.5'
@@ -50,7 +46,7 @@ class iShoutClient(object):
         if not response or response.status > 399:
             return None
         try:
-            resp = json.loads(response.read())
+            resp = json.loads(str(response.read(), encoding='utf-8'))
         except ValueError:
             return None
         if resp:

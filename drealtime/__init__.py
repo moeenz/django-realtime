@@ -1,12 +1,17 @@
-import httplib
 import socket
 from django.conf import settings
+
+try:
+    import httplib
+except:
+    import http.client as  httplib
+
 try:
     from django.utils import simplejson as json
 except ImportError:
     import json
-
-__version__ = '0.1.6'
+    
+__version__ = '0.1.5'
 VERSION = map(int, __version__.split('.'))
 
 class iShoutClient(object):
@@ -41,7 +46,7 @@ class iShoutClient(object):
         if not response or response.status > 399:
             return None
         try:
-            resp = json.loads(response.read())
+            resp = json.loads(str(response.read(), encoding='utf-8'))
         except ValueError:
             return None
         if resp:
